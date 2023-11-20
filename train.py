@@ -100,13 +100,16 @@ def main():
         learning_rate=learning_rate, weight_decay=weight_decay
     )
 
+    loss_function = tf.keras.losses.BinaryCrossentropy()
+
+    # Common classification metrics
+    metrics = ['accuracy',
+        tf.keras.metrics.MeanSquaredError(name='mse')]
+
     model.compile(
         optimizer=optimizer,
-        loss=keras.losses.SparseCategoricalCrossentropy(from_logits=True),
-        metrics=[
-            keras.metrics.SparseCategoricalAccuracy(name="accuracy"),
-            keras.metrics.SparseTopKCategoricalAccuracy(5, name="top-5-accuracy"),
-        ],
+        loss=[loss_function] * 4,
+        metrics=metrics,
     )   
 
     print("\nCreating callbacks")
